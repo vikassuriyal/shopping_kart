@@ -9,15 +9,17 @@ import com.example.vsuriyal.moca.Beans.BeanClass
 import com.example.vsuriyal.moca.Interface.ApiInterface
 import com.example.vsuriyal.moca.Data.ApiClient
 import com.example.vsuriyal.moca.Data.DB
+import com.example.vsuriyal.moca.Utils.Utils
 import retrofit2.Call
 import retrofit2.Response
 
 
 class ItemListViewModel(val context: Application) : AndroidViewModel(context) {
+
     private val mutableLiveData = MutableLiveData<List<BeanClass.ItemListBean>>()
     fun getItemListLiveData(): MutableLiveData<List<BeanClass.ItemListBean>> = mutableLiveData
 
-    private fun callNetworkForListData(db: DB, thread: SaveDBValues) {
+    private fun callNetworkForListData(db: DB) {
         val apiService = ApiClient.client.create(ApiInterface::class.java)
 
         val call = apiService.getItems()
@@ -26,25 +28,31 @@ class ItemListViewModel(val context: Application) : AndroidViewModel(context) {
             }
 
             override fun onResponse(
-                    call: Call<List<BeanClass.ItemListBean>>,
-                    response: Response<List<BeanClass.ItemListBean>>
+                call: Call<List<BeanClass.ItemListBean>>,
+                response: Response<List<BeanClass.ItemListBean>>
             ) {
                 val data = response.body()
-                thread.setThreadValue(data,db)
+                val thread = SaveDBValues()
+                thread.setThreadValue(data, db)
                 thread.start()
-                mutableLiveData.value = data
+                //mutableLiveData.value = data
             }
         })
     }
 
     fun getItemDataFromSource() {
-        val thread = SaveDBValues()
-        val db:DB = DB.getInstance(context)
-        callNetworkForListData(db, thread)
-
+        val db: DB = DB.getInstance(context)
+        var list = db.getAllItems()
+        val isDBEmpty = list.isEmpty()
+        if (isDBEmpty) {
+            callNetworkForListData(db)
+        } else {
+            list = db.getAllItems()
+            mutableLiveData.value = list
+        }
     }
 
-    private class SaveDBValues() : Thread() {
+    inner private class SaveDBValues() : Thread() {
         lateinit var list: List<BeanClass.ItemListBean>
         lateinit var db: DB
 
@@ -55,8 +63,15 @@ class ItemListViewModel(val context: Application) : AndroidViewModel(context) {
 
         override fun run() {
             super.run()
-            db.deleteAllRecords()
-            db.addItemList(list)
+            val arr = ArrayList<BeanClass.ItemListBean>()
+            for (item in list) {
+                item.price = Utils.getRandomNumber()
+                arr.add(item)
+                db.addItem(item)
+                if (arr.size == 50 || arr.size % 1000 == 0)
+                    mutableLiveData.postValue(arr)
+            }
+            mutableLiveData.postValue(arr)
         }
 
     }

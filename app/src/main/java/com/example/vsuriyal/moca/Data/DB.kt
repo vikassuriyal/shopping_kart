@@ -50,9 +50,7 @@ class DB private constructor(context: Context) : SQLiteOpenHelper(context, DATAB
 
     @Synchronized fun deleteAllRecords(){
         val db = this.writableDatabase
-        db.execSQL("delete from "+ TABLE_NAME);
-        db.close()
-
+        db.execSQL("delete from "+ TABLE_NAME)
     }
     private fun getAllData():Cursor{
         val db = getReadableDatabase()
@@ -67,16 +65,15 @@ class DB private constructor(context: Context) : SQLiteOpenHelper(context, DATAB
         contentValues.put(URL, url)
         contentValues.put(THUMBNAIL_URL, thumbnailUrl)
         contentValues.put(PRICE, price)
-        val db = getWritableDatabase()
+        val db = writableDatabase
         db.insert(TABLE_NAME, null, contentValues)
-        db.close()
     }
 
-    private fun addItem(bean: BeanClass.ItemListBean) {
-        addItem(bean.albumId,bean.id,bean.title, bean.url, bean.thumbnailUrl, getRandomNumber())
+    fun addItem(bean: BeanClass.ItemListBean) {
+        addItem(bean.albumId,bean.id,bean.title, bean.url, bean.thumbnailUrl, bean.price)
     }
 
-    @Synchronized fun addItemList(list: List<BeanClass.ItemListBean>) {
+    fun addItemList(list: List<BeanClass.ItemListBean>) {
         for (bean in list) {
             addItem(bean)
         }
@@ -98,7 +95,6 @@ class DB private constructor(context: Context) : SQLiteOpenHelper(context, DATAB
                 ))
             } while (cursor.moveToNext())
         }
-        cursor.close()
         return list
     }
 }

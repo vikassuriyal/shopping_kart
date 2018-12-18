@@ -26,15 +26,21 @@ class ItemListFragment : BaseFragment(), View.OnClickListener {
     }
 
     val viewModel by lazy {
-        ViewModelProviders.of(this).get(ItemListViewModel::class.java)
+        activity?.let { ViewModelProviders.of(it).get(ItemListViewModel::class.java) }
     }
 
     val observer = Observer<List<BeanClass.ItemListBean>> { itemList ->
-        val currentCount = item_list_recycler_view.adapter?.itemCount ?: 0
-        if (item_list_recycler_view.adapter == null || currentCount == 0 ) {
-            item_list_recycler_view.apply {
+       val recycler = item_list_recycler_view
+        if (recycler.adapter == null ) {
+            recycler.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = itemList?.let { ItemListAdapter(this@ItemListFragment, itemList) }
+            }
+        }
+        else{
+            (recycler.adapter as ItemListAdapter).apply {
+                setData(itemList)
+                notifyDataSetChanged()
             }
         }
         hideProgress()
@@ -46,9 +52,9 @@ class ItemListFragment : BaseFragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getItemListLiveData().observe(this, observer)
+        viewModel?.getItemListLiveData()?.observe(this, observer)
         showProgress()
-        viewModel.getItemDataFromSource()
+        viewModel?.getItemDataFromSource()
     }
 
     override fun onResume() {

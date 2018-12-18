@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_list_adapter_view.view.item_adapter_i
 import kotlinx.android.synthetic.main.item_list_adapter_view.view.item_adapter_price
 import kotlinx.android.synthetic.main.item_list_adapter_view.view.item_adapter_text
 
-class ItemListAdapter(val context: BaseFragment, val list: List<BeanClass.ItemListBean>) :
+class ItemListAdapter(val context: BaseFragment, var list: List<BeanClass.ItemListBean>) :
     RecyclerView.Adapter<ItemListAdapter.ItemListHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ItemListHolder {
@@ -31,10 +31,13 @@ class ItemListAdapter(val context: BaseFragment, val list: List<BeanClass.ItemLi
     }
 
     override fun onBindViewHolder(p0: ItemListHolder, p1: Int) {
-        list.get(p1).price = getRandomNumber()
         p0.textView.text = list.get(p1).title
         p0.priceText.text = context.getResources().getString(R.string.price_TEMPLATE, list.get(p1).price.toString())
         Picasso.get().load(list.get(p1).thumbnailUrl).resize(50, 50).centerCrop().into(p0.image)
+    }
+
+    fun setData(list: List<BeanClass.ItemListBean>?) {
+        this.list = list?: ArrayList()
     }
 
     inner class ItemListHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {

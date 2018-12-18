@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.shopping_kart_fragment.shopping_kart_subto
 import kotlinx.android.synthetic.main.shopping_kart_fragment.shopping_list_charge
 import kotlinx.android.synthetic.main.shopping_kart_fragment.shopping_list_clear
 import kotlinx.android.synthetic.main.shopping_kart_fragment.shopping_list_recycler_view
+import java.text.DecimalFormat
 
 class ShoppingKartFragment:BaseFragment(), ShoppingKart {
 
@@ -53,15 +54,15 @@ class ShoppingKartFragment:BaseFragment(), ShoppingKart {
     }
 
     val totalPriceObserver = Observer<Float>{
-        shopping_list_charge.text = context?.getResources()?.getString(R.string.price_TEMPLATE, it.toString())
+        shopping_list_charge.text = context?.resources?.getString(R.string.price_TEMPLATE,  DecimalFormat("##.##").format(it))
     }
 
     val totalDiscountObserver = Observer<Float>{
-        shopping_kart_discount.text = context?.getResources()?.getString(R.string.price_TEMPLATE, it.toString())
+        shopping_kart_discount.text = context?.resources?.getString(R.string.price_TEMPLATE, DecimalFormat("##.##").format(it))
     }
 
     val totalSubtotalObserver = Observer<Int>{
-        shopping_kart_subtotal.text = context?.getResources()?.getString(R.string.price_TEMPLATE, it.toString())
+        shopping_kart_subtotal.text = context?.resources?.getString(R.string.price_TEMPLATE, DecimalFormat("##.##").format(it))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

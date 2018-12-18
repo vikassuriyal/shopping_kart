@@ -25,12 +25,16 @@ abstract class BaseFragment:Fragment() {
     }
 
     fun removeFragment(){
-        hideProgress()
-        activity?.getSupportFragmentManager()?.popBackStack()
+        val count = activity?.supportFragmentManager?.getBackStackEntryCount()?:0
+        if(count > 0) {
+            hideProgress()
+            activity?.getSupportFragmentManager()?.popBackStack()
+        }
     }
 
     fun addToShoppingKart(bean:BeanClass.ShoppingListBean) {
         (activity as MainActivity) .getShoppingKart().addItem(bean)
     }
+
 
 }
