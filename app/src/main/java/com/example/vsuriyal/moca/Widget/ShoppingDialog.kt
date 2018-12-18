@@ -108,7 +108,7 @@ class ShoppingDialog(val fragment: BaseFragment, val bean: BeanClass.ItemListBea
 
     private fun increaseQuantity() {
         var quantity = getQuantity()
-        if (quantity > 1000) {
+        if (quantity == 1000) {
             return
         }
         quantity++
