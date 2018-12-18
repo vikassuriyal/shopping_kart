@@ -6,18 +6,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.vsuriyal.moca.Fragment.BaseFragment
 import com.example.vsuriyal.moca.Fragment.DiscountListFragment
 import com.example.vsuriyal.moca.Fragment.ItemListFragment
 import com.example.vsuriyal.moca.R
 import com.example.vsuriyal.moca.Utils.Utils
 import kotlinx.android.synthetic.main.library_adapter_view.view.library_adapter_text
 
-class LibraryAdapter(val context: Context, val list: Array<String>) :
+class LibraryAdapter(val fragment: BaseFragment, val list: Array<String>) :
     RecyclerView.Adapter<LibraryAdapter.LibraryHolder>() {
 
-
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): LibraryHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.library_adapter_view, p0, false)
+        val view = LayoutInflater.from(fragment.context).inflate(R.layout.library_adapter_view, p0, false)
         return LibraryHolder(view)
     }
 
@@ -43,9 +43,9 @@ class LibraryAdapter(val context: Context, val list: Array<String>) :
 
         override fun onClick(p0: View?) {
             if (adapterPosition == 0) {
-                Utils.addFragment(context as FragmentActivity, R.id.discount_list, DiscountListFragment(), "DiscountListFragment")
+                Utils.addFragment(fragment.activity , R.id.discount_list, DiscountListFragment.getInstance(), "DiscountListFragment")
             } else if (adapterPosition == 1) {
-                Utils.addFragment(context as FragmentActivity,R.id.discount_list, ItemListFragment(), "DiscountListFragment")
+                Utils.addFragment(fragment.activity as FragmentActivity,R.id.discount_list, ItemListFragment.getInstance(), "DiscountListFragment")
             }
         }
 

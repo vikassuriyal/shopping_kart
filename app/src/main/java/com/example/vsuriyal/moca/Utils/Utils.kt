@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity
 
 object Utils {
 
-    fun addFragment(activity: FragmentActivity, id:Int, fragment: Fragment, tag: String ) {
+    fun addFragment(activity: FragmentActivity?, id:Int, fragment: Fragment, tag: String ) {
         val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
         fragmentTransaction?.add(id, fragment)
         fragmentTransaction?.addToBackStack(tag)

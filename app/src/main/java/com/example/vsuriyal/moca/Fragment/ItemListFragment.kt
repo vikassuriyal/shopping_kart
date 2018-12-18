@@ -55,4 +55,10 @@ class ItemListFragment : BaseFragment(), View.OnClickListener {
         super.onResume()
         item_list_back.setOnClickListener(this)
     }
+
+    companion object {
+        fun getInstance():ItemListFragment{
+            return ItemListFragment()
+        }
+    }
 }

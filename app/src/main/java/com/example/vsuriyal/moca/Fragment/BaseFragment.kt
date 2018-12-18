@@ -16,13 +16,6 @@ abstract class BaseFragment:Fragment() {
 
     abstract fun getLayoutView():Int
 
-    fun addFragment(id:Int, fragment: Fragment, tag: String ) {
-        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-        fragmentTransaction?.add(id, fragment)
-        fragmentTransaction?.addToBackStack(tag)
-        fragmentTransaction?.commit()
-    }
-
     fun showProgress(){
         (activity as MainActivity).getProgressBar().visibility = View.VISIBLE
     }

@@ -44,4 +44,10 @@ class DiscountListFragment:BaseFragment(), View.OnClickListener {
         viewModel.getDiscountListLiveData().observe(this, observer)
     }
 
+    companion object {
+        fun getInstance():DiscountListFragment{
+            return DiscountListFragment()
+        }
+    }
+
 }

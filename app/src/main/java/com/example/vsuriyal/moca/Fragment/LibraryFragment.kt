@@ -17,11 +17,13 @@ class LibraryFragment: BaseFragment() {
 
         library_recycler_view.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = LibraryAdapter(context,resourceString)
+            adapter = LibraryAdapter(this@LibraryFragment,resourceString)
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    companion object {
+        fun getInstance():LibraryFragment{
+            return LibraryFragment()
+        }
     }
 }

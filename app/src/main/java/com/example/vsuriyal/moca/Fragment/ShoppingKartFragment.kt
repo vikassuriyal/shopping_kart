@@ -99,4 +99,10 @@ class ShoppingKartFragment:BaseFragment(), ShoppingKart {
         shopping_list_charge.visibility = View.VISIBLE
     }
 
+    companion object {
+        fun getInstance():ShoppingKartFragment{
+            return ShoppingKartFragment()
+        }
+    }
+
 }

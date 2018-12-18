@@ -7,27 +7,22 @@ import android.widget.ProgressBar
 import com.example.vsuriyal.moca.Fragment.LibraryFragment
 import com.example.vsuriyal.moca.Fragment.ShoppingKartFragment
 import com.example.vsuriyal.moca.Interface.ShoppingKart
+import com.example.vsuriyal.moca.Utils.Utils
+import com.example.vsuriyal.moca.Utils.Utils.addFragment
 import com.example.vsuriyal.moca.Widget.ShoppingDialog
 import kotlinx.android.synthetic.main.activity_main.progress
 
 class MainActivity : AppCompatActivity() {
     private val progressView by lazy { progress }
-    private val libraryFragment by lazy { LibraryFragment() }
-    private val shoppingKartFragment by lazy { ShoppingKartFragment() }
+    private val libraryFragment by lazy { LibraryFragment.getInstance() }
+    private val shoppingKartFragment by lazy { ShoppingKartFragment.getInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
-        addFragment(R.id.discount_list, libraryFragment, "Library")
-        addFragment(R.id.shopping_list, shoppingKartFragment, "ShoppingList")
-    }
-
-    fun addFragment(id:Int, fragment:Fragment, text: String ) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction?.add(id, fragment, text)
-        fragmentTransaction?.addToBackStack(null)
-        fragmentTransaction.commit()
+        Utils.addFragment(this, R.id.discount_list, libraryFragment, "Library")
+        Utils.addFragment(this, R.id.shopping_list, shoppingKartFragment, "ShoppingList")
     }
 
     override fun onBackPressed() {
