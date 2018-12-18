@@ -47,7 +47,6 @@ class ItemListViewModel(val context: Application) : AndroidViewModel(context) {
         if (isDBEmpty) {
             callNetworkForListData(db)
         } else {
-            list = db.getAllItems()
             mutableLiveData.value = list
         }
     }
