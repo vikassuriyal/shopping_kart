@@ -15,6 +15,10 @@ import com.example.vsuriyal.moca.ViewModel.ItemListViewModel
 import kotlinx.android.synthetic.main.item_list_fragment.*
 
 class ItemListFragment : BaseFragment(), View.OnClickListener {
+    override fun getFragmentTag(): String {
+        return "ItemListFragment"
+    }
+
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.item_list_back -> {
@@ -30,17 +34,18 @@ class ItemListFragment : BaseFragment(), View.OnClickListener {
     }
 
     val observer = Observer<List<BeanClass.ItemListBean>> { itemList ->
-       val recycler = item_list_recycler_view
-        if (recycler.adapter == null ) {
+        val recycler = item_list_recycler_view
+        if (recycler.adapter == null) {
             recycler.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = itemList?.let { ItemListAdapter(this@ItemListFragment, itemList) }
             }
-        }
-        else{
-            (recycler.adapter as ItemListAdapter).apply {
+        } else {
+            val adapter = recycler.adapter as ItemListAdapter
+            adapter.apply {
                 setData(itemList)
                 notifyDataSetChanged()
+
             }
         }
         hideProgress()
@@ -63,7 +68,7 @@ class ItemListFragment : BaseFragment(), View.OnClickListener {
     }
 
     companion object {
-        fun getInstance():ItemListFragment{
+        fun getInstance(): ItemListFragment {
             return ItemListFragment()
         }
     }

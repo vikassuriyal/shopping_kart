@@ -40,6 +40,9 @@ class ItemListAdapter(val context: BaseFragment, var list: List<BeanClass.ItemLi
         this.list = list?: ArrayList()
     }
 
+    fun getData():List<BeanClass.ItemListBean>? {
+        return list
+    }
     inner class ItemListHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val textView = view.item_adapter_text
         val priceText = view.item_adapter_price

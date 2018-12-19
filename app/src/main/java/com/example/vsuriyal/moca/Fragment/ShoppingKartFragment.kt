@@ -23,6 +23,9 @@ import kotlinx.android.synthetic.main.shopping_kart_fragment.shopping_list_recyc
 import java.text.DecimalFormat
 
 class ShoppingKartFragment:BaseFragment(), ShoppingKart {
+    override fun getFragmentTag(): String {
+        return "ShoppingKartFragment"
+    }
 
     val viewModel by lazy {
         ViewModelProviders.of(this).get(ShoppingKarViewModel::class.java)

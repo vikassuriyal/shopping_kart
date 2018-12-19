@@ -8,33 +8,33 @@ import android.view.ViewGroup
 import com.example.vsuriyal.moca.Beans.BeanClass
 import com.example.vsuriyal.moca.MainActivity
 
-abstract class BaseFragment:Fragment() {
+abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutView(),container,false)
+        return inflater.inflate(getLayoutView(), container, false)
     }
 
-    abstract fun getLayoutView():Int
+    abstract fun getLayoutView(): Int
 
-    fun showProgress(){
+    fun showProgress() {
         (activity as MainActivity).getProgressBar().visibility = View.VISIBLE
     }
 
-    fun hideProgress(){
+    fun hideProgress() {
         (activity as MainActivity).getProgressBar().visibility = View.GONE
     }
 
-    fun removeFragment(){
-        val count = activity?.supportFragmentManager?.getBackStackEntryCount()?:0
-        if(count > 0) {
+    fun removeFragment() {
+        val fragment = activity?.supportFragmentManager?.findFragmentByTag(getFragmentTag())
+        if (fragment != null) {
             hideProgress()
-            activity?.getSupportFragmentManager()?.popBackStack()
+            activity?.supportFragmentManager?.beginTransaction()?.remove(fragment)?.commit()
         }
     }
 
-    fun addToShoppingKart(bean:BeanClass.ShoppingListBean) {
-        (activity as MainActivity) .getShoppingKart().addItem(bean)
+    fun addToShoppingKart(bean: BeanClass.ShoppingListBean) {
+        (activity as MainActivity).getShoppingKart().addItem(bean)
     }
 
-
+    abstract fun getFragmentTag(): String
 }

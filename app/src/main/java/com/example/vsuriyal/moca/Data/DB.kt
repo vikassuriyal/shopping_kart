@@ -48,7 +48,7 @@ class DB private constructor(context: Context) : SQLiteOpenHelper(context, DATAB
     }
 
 
-    @Synchronized fun deleteAllRecords(){
+    fun deleteAllRecords(){
         val db = this.writableDatabase
         db.execSQL("delete from "+ TABLE_NAME)
     }
@@ -79,7 +79,7 @@ class DB private constructor(context: Context) : SQLiteOpenHelper(context, DATAB
         }
     }
 
-    fun getAllItems():List<BeanClass.ItemListBean> {
+    @Synchronized fun getAllItems():List<BeanClass.ItemListBean> {
         val list = ArrayList<BeanClass.ItemListBean>()
         val cursor = getAllData()
 

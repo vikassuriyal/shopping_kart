@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
-        Utils.addFragment(this, R.id.discount_list, libraryFragment, "Library")
-        Utils.addFragment(this, R.id.shopping_list, shoppingKartFragment, "ShoppingList")
+        Utils.addFragment(this, R.id.discount_list, libraryFragment, libraryFragment.getFragmentTag())
+        Utils.addFragment(this, R.id.shopping_list, shoppingKartFragment, shoppingKartFragment.getFragmentTag())
     }
 
     override fun onBackPressed() {

@@ -33,9 +33,9 @@ class ItemListViewModel(val context: Application) : AndroidViewModel(context) {
             ) {
                 val data = response.body()
                 val thread = SaveDBValues()
-                thread.setThreadValue(data, db)
+                thread.setThreadValue(data, db, mutableLiveData)
                 thread.start()
-                //mutableLiveData.value = data
+
             }
         })
     }
@@ -51,26 +51,34 @@ class ItemListViewModel(val context: Application) : AndroidViewModel(context) {
         }
     }
 
-    inner private class SaveDBValues() : Thread() {
+    class SaveDBValues : Thread() {
+
         lateinit var list: List<BeanClass.ItemListBean>
         lateinit var db: DB
-
-        fun setThreadValue(values: List<BeanClass.ItemListBean>, db: DB) {
+        lateinit var mutableLiveData: MutableLiveData<List<BeanClass.ItemListBean>>
+        fun setThreadValue(
+            values: List<BeanClass.ItemListBean>,
+            db: DB,
+            liveData: MutableLiveData<List<BeanClass.ItemListBean>>
+        ) {
             this.list = values
             this.db = db
+            this.mutableLiveData = liveData
         }
 
         override fun run() {
             super.run()
-            val arr = ArrayList<BeanClass.ItemListBean>()
-            for (item in list) {
-                item.price = Utils.getRandomNumber()
-                arr.add(item)
-                db.addItem(item)
-                if (arr.size == 50 || arr.size % 1000 == 0)
-                    mutableLiveData.postValue(arr)
+            if (db.getAllItems().isEmpty()) {
+                val arr = ArrayList<BeanClass.ItemListBean>()
+                for (item in list) {
+                    item.price = Utils.getRandomNumber()
+                    db.addItem(item)
+                    arr.add(item)
+                    if (arr.size == 50 || arr.size % 1000 == 0)
+                        mutableLiveData.postValue(arr)
+                }
+                mutableLiveData.postValue(arr)
             }
-            mutableLiveData.postValue(arr)
         }
 
     }

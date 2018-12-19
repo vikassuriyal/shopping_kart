@@ -43,9 +43,11 @@ class LibraryAdapter(val fragment: BaseFragment, val list: Array<String>) :
 
         override fun onClick(p0: View?) {
             if (adapterPosition == 0) {
-                Utils.addFragment(fragment.activity , R.id.discount_list, DiscountListFragment.getInstance(), "DiscountListFragment")
+                val discountListFragment = DiscountListFragment.getInstance()
+                Utils.addFragment(fragment.activity , R.id.discount_list, discountListFragment, discountListFragment.getFragmentTag())
             } else if (adapterPosition == 1) {
-                Utils.addFragment(fragment.activity as FragmentActivity,R.id.discount_list, ItemListFragment.getInstance(), "DiscountListFragment")
+                val itemListFragment = ItemListFragment.getInstance()
+                Utils.addFragment(fragment.activity as FragmentActivity,R.id.discount_list, itemListFragment, itemListFragment.getFragmentTag())
             }
         }
 

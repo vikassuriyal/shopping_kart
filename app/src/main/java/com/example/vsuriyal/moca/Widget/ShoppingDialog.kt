@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.shopping_dialog_view.shopping_dialog_quant
 import kotlinx.android.synthetic.main.shopping_dialog_view.shopping_dialog_save
 import kotlinx.android.synthetic.main.shopping_dialog_view.shopping_dialog_title
 import kotlinx.android.synthetic.main.shopping_dialog_view.view.*
+import java.lang.NumberFormatException
 
 
 class ShoppingDialog(val fragment: BaseFragment, val bean: BeanClass.ItemListBean) : Dialog(fragment.activity),
@@ -103,7 +104,14 @@ class ShoppingDialog(val fragment: BaseFragment, val bean: BeanClass.ItemListBea
     }
 
     private fun getQuantity(): Int {
-        return Integer.parseInt(shopping_dialog_quantity.text.toString())
+        var value = 0
+        try {
+            value = Integer.parseInt(shopping_dialog_quantity.text.toString())
+        }
+        catch (e:NumberFormatException){
+
+        }
+        return value
     }
 
     private fun increaseQuantity() {
@@ -125,7 +133,10 @@ class ShoppingDialog(val fragment: BaseFragment, val bean: BeanClass.ItemListBea
     }
 
     private fun updateQuantityToCurrentValue(quantity:Int) {
-        shopping_dialog_quantity.setText(quantity.toString())
+        shopping_dialog_quantity.run {
+            setText(quantity.toString())
+            setSelection(shopping_dialog_quantity.getText().length)
+        }
     }
 
     private fun viewSwitchOn(view: SwitchCompat) {

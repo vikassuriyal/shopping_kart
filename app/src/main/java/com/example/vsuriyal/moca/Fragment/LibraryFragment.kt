@@ -7,6 +7,10 @@ import com.example.vsuriyal.moca.R
 import kotlinx.android.synthetic.main.library_fragment.library_recycler_view
 
 class LibraryFragment: BaseFragment() {
+    override fun getFragmentTag(): String {
+        return "LibraryFragment"
+    }
+
     override fun getLayoutView(): Int {
         return R.layout.library_fragment
     }

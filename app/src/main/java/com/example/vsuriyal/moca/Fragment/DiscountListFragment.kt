@@ -13,6 +13,10 @@ import kotlinx.android.synthetic.main.discount_list_fragment.all_discounts_back
 import kotlinx.android.synthetic.main.discount_list_fragment.all_discounts_recycler_view
 
 class DiscountListFragment:BaseFragment(), View.OnClickListener {
+    override fun getFragmentTag(): String {
+        return "DiscountListFragment"
+    }
+
     override fun onClick(p0: View?) {
         when (p0?.id){
             R.id.all_discounts_back -> removeFragment()

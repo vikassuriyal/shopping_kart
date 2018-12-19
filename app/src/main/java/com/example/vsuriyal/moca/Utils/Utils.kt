@@ -8,7 +8,7 @@ object Utils {
 
     fun addFragment(activity: FragmentActivity?, id:Int, fragment: Fragment, tag: String ) {
         val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-        fragmentTransaction?.add(id, fragment)
+        fragmentTransaction?.add(id, fragment, tag)
         fragmentTransaction?.addToBackStack(tag)
         fragmentTransaction?.commit()
     }
