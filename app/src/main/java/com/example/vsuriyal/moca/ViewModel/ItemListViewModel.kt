@@ -68,7 +68,7 @@ class ItemListViewModel(val context: Application) : AndroidViewModel(context) {
 
         override fun run() {
             super.run()
-            if (db.getAllItems().isEmpty()) {
+            if (db.getCount() == 0L) {
                 val arr = ArrayList<BeanClass.ItemListBean>()
                 for (item in list) {
                     item.price = Utils.getRandomNumber()

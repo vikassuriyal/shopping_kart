@@ -3,6 +3,7 @@ package com.example.vsuriyal.moca.Data
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.database.DatabaseUtils
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.vsuriyal.moca.Beans.BeanClass
@@ -55,6 +56,11 @@ class DB private constructor(context: Context) : SQLiteOpenHelper(context, DATAB
     private fun getAllData():Cursor{
         val db = getReadableDatabase()
         return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
+    }
+
+    fun getCount():Long{
+        val db = getReadableDatabase()
+       return DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
     private fun addItem(albumID: Int, id: Int, title: String, url: String, thumbnailUrl: String, price: Int) {
